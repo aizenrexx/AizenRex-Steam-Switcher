@@ -1,0 +1,115 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="640" viewBox="0 0 1200 640" role="img" aria-label="Layered architecture: the UI pages call Core, Core reads and writes through the IO layer, and only the IO layer touches disk.">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#f8fbff"/><stop offset="1" stop-color="#eaf1fb"/>
+    </linearGradient>
+    <radialGradient id="glow" cx="0.5" cy="0.5" r="0.5">
+      <stop offset="0" stop-color="#2f6fd0" stop-opacity="0.10"/>
+      <stop offset="1" stop-color="#5b8cff" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <rect width="1200" height="640" fill="url(#bg)"/>
+  <circle cx="600" cy="320" r="470" fill="url(#glow)"/>
+
+  <text x="600" y="46" font-family="Segoe UI, system-ui, sans-serif" font-size="25" font-weight="700" fill="#0b1626" text-anchor="middle">How the pieces fit</text>
+  <text x="600" y="72" font-family="Segoe UI, system-ui, sans-serif" font-size="15" fill="#5c7594" text-anchor="middle">Nothing above Core writes to Steam. Nothing outside AppPaths writes to disk.</text>
+
+  <rect x="40" y="96" width="1120" height="112" rx="14" fill="#ffffff" stroke="#9fc0ea" stroke-width="1.6"/>
+  <text x="64" y="126" font-family="Segoe UI, system-ui, sans-serif" font-size="13" font-weight="700" fill="#1c5aa8" letter-spacing="1.6">UI</text>
+  <text x="64" y="146" font-family="Segoe UI, system-ui, sans-serif" font-size="12" fill="#5c7594">WPF pages - views only, no file logic</text>
+
+  <g font-family="Segoe UI, system-ui, sans-serif" font-size="13" font-weight="600" fill="#12406e">
+    <rect x="230" y="112" width="132" height="34" rx="8" fill="#dbeafe" stroke="#9fc0ea"/>
+    <text x="296" y="134" text-anchor="middle">MainWindow</text>
+    <rect x="374" y="112" width="120" height="34" rx="8" fill="#dbeafe" stroke="#9fc0ea"/>
+    <text x="434" y="134" text-anchor="middle">Dashboard</text>
+    <rect x="506" y="112" width="104" height="34" rx="8" fill="#dbeafe" stroke="#9fc0ea"/>
+    <text x="558" y="134" text-anchor="middle">Library</text>
+    <rect x="622" y="112" width="112" height="34" rx="8" fill="#dbeafe" stroke="#9fc0ea"/>
+    <text x="678" y="134" text-anchor="middle">Compare</text>
+    <rect x="746" y="112" width="100" height="34" rx="8" fill="#dbeafe" stroke="#9fc0ea"/>
+    <text x="796" y="134" text-anchor="middle">History</text>
+    <rect x="858" y="112" width="112" height="34" rx="8" fill="#dbeafe" stroke="#9fc0ea"/>
+    <text x="914" y="134" text-anchor="middle">Backups</text>
+    <rect x="982" y="112" width="132" height="34" rx="8" fill="#dbeafe" stroke="#9fc0ea"/>
+    <text x="1048" y="134" text-anchor="middle">Diagnostics</text>
+    <rect x="230" y="158" width="132" height="34" rx="8" fill="#dbeafe" stroke="#9fc0ea"/>
+    <text x="296" y="180" text-anchor="middle">Setup Wizard</text>
+    <rect x="374" y="158" width="120" height="34" rx="8" fill="#dbeafe" stroke="#9fc0ea"/>
+    <text x="434" y="180" text-anchor="middle">Tools</text>
+    <rect x="506" y="158" width="104" height="34" rx="8" fill="#dbeafe" stroke="#9fc0ea"/>
+    <text x="558" y="180" text-anchor="middle">Logs</text>
+    <rect x="622" y="158" width="112" height="34" rx="8" fill="#dbeafe" stroke="#9fc0ea"/>
+    <text x="678" y="180" text-anchor="middle">Settings</text>
+    <rect x="746" y="158" width="212" height="34" rx="8" fill="#dbeafe" stroke="#9fc0ea"/>
+    <text x="852" y="180" text-anchor="middle">IRefreshablePage contract</text>
+  </g>
+
+  <path d="M600 208 L600 240" stroke="#6f96cf" stroke-width="2"/>
+  <polygon points="600,244 594,234 606,234" fill="#6f96cf"/>
+  <text x="620" y="232" font-family="Segoe UI, system-ui, sans-serif" font-size="12" fill="#5c7594">reads status, never writes</text>
+
+  <rect x="40" y="248" width="1120" height="112" rx="14" fill="#faf7ff" stroke="#c3b0ee" stroke-width="1.8"/>
+  <text x="64" y="278" font-family="Segoe UI, system-ui, sans-serif" font-size="13" font-weight="700" fill="#5b3bb5" letter-spacing="1.6">CORE</text>
+  <text x="64" y="298" font-family="Segoe UI, system-ui, sans-serif" font-size="12" fill="#7d72a8">the only thing that mutates Steam</text>
+
+  <g font-family="Segoe UI, system-ui, sans-serif" font-size="13" font-weight="600" fill="#3d2a6e">
+    <rect x="230" y="264" width="150" height="38" rx="8" fill="#ece4fb" stroke="#c3b0ee"/>
+    <text x="305" y="288" text-anchor="middle">SwitchEngine</text>
+    <rect x="392" y="264" width="150" height="38" rx="8" fill="#ece4fb" stroke="#c3b0ee"/>
+    <text x="467" y="288" text-anchor="middle">UpdateService</text>
+    <rect x="554" y="264" width="170" height="38" rx="8" fill="#ece4fb" stroke="#c3b0ee"/>
+    <text x="639" y="288" text-anchor="middle">SteamDaddyUpdater</text>
+    <rect x="736" y="264" width="150" height="38" rx="8" fill="#ece4fb" stroke="#c3b0ee"/>
+    <text x="811" y="288" text-anchor="middle">BackupService</text>
+    <rect x="898" y="264" width="150" height="38" rx="8" fill="#ece4fb" stroke="#c3b0ee"/>
+    <text x="973" y="288" text-anchor="middle">Diagnostics</text>
+    <rect x="230" y="310" width="150" height="38" rx="8" fill="#ece4fb" stroke="#c3b0ee"/>
+    <text x="305" y="334" text-anchor="middle">SteamLocator</text>
+    <rect x="392" y="310" width="150" height="38" rx="8" fill="#ece4fb" stroke="#c3b0ee"/>
+    <text x="467" y="334" text-anchor="middle">SteamInspector</text>
+    <rect x="554" y="310" width="170" height="38" rx="8" fill="#ece4fb" stroke="#c3b0ee"/>
+    <text x="639" y="334" text-anchor="middle">FirstRunService</text>
+    <rect x="736" y="310" width="150" height="38" rx="8" fill="#ece4fb" stroke="#c3b0ee"/>
+    <text x="811" y="334" text-anchor="middle">ElevatedLauncher</text>
+    <rect x="898" y="310" width="150" height="38" rx="8" fill="#ece4fb" stroke="#c3b0ee"/>
+    <text x="973" y="334" text-anchor="middle">OpResult</text>
+  </g>
+
+  <path d="M600 360 L600 392" stroke="#6f96cf" stroke-width="2"/>
+  <polygon points="600,396 594,386 606,386" fill="#6f96cf"/>
+  <text x="620" y="384" font-family="Segoe UI, system-ui, sans-serif" font-size="12" fill="#5c7594">journal, back up, write, verify</text>
+
+  <rect x="40" y="400" width="1120" height="112" rx="14" fill="#f2fdf7" stroke="#6cc99a" stroke-width="1.8"/>
+  <text x="64" y="430" font-family="Segoe UI, system-ui, sans-serif" font-size="13" font-weight="700" fill="#12734a" letter-spacing="1.6">IO</text>
+  <text x="64" y="450" font-family="Segoe UI, system-ui, sans-serif" font-size="12" fill="#4d8a6d">the only layer that touches disk</text>
+
+  <g font-family="Segoe UI, system-ui, sans-serif" font-size="13" font-weight="600" fill="#14543a">
+    <rect x="230" y="416" width="150" height="38" rx="8" fill="#d8f6e6" stroke="#6cc99a"/>
+    <text x="305" y="440" text-anchor="middle">VdfDocument</text>
+    <rect x="392" y="416" width="150" height="38" rx="8" fill="#d8f6e6" stroke="#6cc99a"/>
+    <text x="467" y="440" text-anchor="middle">LoginUsers</text>
+    <rect x="554" y="416" width="170" height="38" rx="8" fill="#d8f6e6" stroke="#6cc99a"/>
+    <text x="639" y="440" text-anchor="middle">Store / Settings</text>
+    <rect x="736" y="416" width="150" height="38" rx="8" fill="#d8f6e6" stroke="#6cc99a"/>
+    <text x="811" y="440" text-anchor="middle">AppPaths</text>
+    <rect x="898" y="416" width="150" height="38" rx="8" fill="#d8f6e6" stroke="#6cc99a"/>
+    <text x="973" y="440" text-anchor="middle">Log</text>
+    <rect x="230" y="462" width="818" height="34" rx="8" fill="#d8f6e6" stroke="#6cc99a" stroke-dasharray="6 4"/>
+    <text x="639" y="484" text-anchor="middle" font-size="12.5">VDF is parsed into a tree and written back - never regex-patched. The harness in tools/vdftest proves it.</text>
+  </g>
+
+  <path d="M600 512 L600 544" stroke="#6f96cf" stroke-width="2"/>
+  <polygon points="600,548 594,538 606,538" fill="#6f96cf"/>
+
+  <rect x="40" y="552" width="1120" height="72" rx="14" fill="#fff8ec" stroke="#d9a04e" stroke-width="1.6"/>
+  <text x="64" y="580" font-family="Segoe UI, system-ui, sans-serif" font-size="13" font-weight="700" fill="#8a5a12" letter-spacing="1.6">DISK</text>
+  <g font-family="Segoe UI, system-ui, sans-serif" font-size="13" font-weight="600" fill="#7a4a10">
+    <rect x="230" y="566" width="190" height="34" rx="8" fill="#fbe3d6" stroke="#d9a04e"/>
+    <text x="325" y="588" text-anchor="middle">Steam (Main)</text>
+    <rect x="432" y="566" width="190" height="34" rx="8" fill="#fbe3d6" stroke="#d9a04e"/>
+    <text x="527" y="588" text-anchor="middle">Steam Daddy</text>
+    <rect x="634" y="566" width="414" height="34" rx="8" fill="#fbe3d6" stroke="#d9a04e"/>
+    <text x="841" y="588" text-anchor="middle">app folder - data\ logs\ backups\ exports\</text>
+  </g>
+</svg>
