@@ -1,0 +1,143 @@
+<Page x:Class="SteamSwitcher.Pages.DiagnosticsPage"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml">
+
+    <ScrollViewer VerticalScrollBarVisibility="Auto">
+        <StackPanel Margin="0,0,8,20">
+
+            <TextBlock Text="Diagnostics" Style="{StaticResource PageTitle}" />
+            <TextBlock Style="{StaticResource PageSubtitle}"
+                       Text="Health of the folder layout, accounts and permissions." />
+
+            <!-- Score -->
+            <Border Style="{StaticResource Card}">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+
+                    <StackPanel Grid.Column="0" Margin="0,0,24,0">
+                        <TextBlock Text="HEALTH SCORE" Style="{StaticResource LabelText}" />
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock x:Name="ScoreText" Text="—"
+                                       FontSize="42" FontWeight="Bold"
+                                       Foreground="{StaticResource TextPrimaryBrush}" />
+                            <TextBlock Text="/100" FontSize="16"
+                                       Foreground="{StaticResource TextMutedBrush}"
+                                       VerticalAlignment="Bottom" Margin="3,0,0,8" />
+                        </StackPanel>
+                        <TextBlock x:Name="GradeText" Text="" FontSize="13" FontWeight="SemiBold" />
+                    </StackPanel>
+
+                    <StackPanel Grid.Column="1" VerticalAlignment="Center">
+                        <TextBlock x:Name="SummaryText" Style="{StaticResource BodyText}" Text="" />
+                        <ProgressBar x:Name="ScoreBar" Height="6" Margin="0,12,0,0"
+                                     Minimum="0" Maximum="100" Value="0"
+                                     Background="#FF23262F"
+                                     Foreground="{StaticResource AccentBrush}" />
+                    </StackPanel>
+
+                    <StackPanel Grid.Column="2" VerticalAlignment="Center" Margin="20,0,0,0">
+                        <Button x:Name="RepairButton" Style="{StaticResource PrimaryButton}"
+                                Content="Repair layout" Click="OnRepairClick"
+                                IsEnabled="False" Margin="0,0,0,8" />
+                        <Button Style="{StaticResource SubtleButton}"
+                                Content="Re-run checks" Click="OnRerunClick" />
+                    </StackPanel>
+                </Grid>
+            </Border>
+
+            <!-- Folder state -->
+            <Border Style="{StaticResource Card}">
+                <StackPanel>
+                    <TextBlock Text="Folder state" Style="{StaticResource SectionHeader}" />
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+
+                        <TextBlock Grid.Row="0" Grid.Column="0" Text="Active" Style="{StaticResource LabelText}" Margin="0,0,16,8" />
+                        <TextBlock x:Name="ActivePathText" Grid.Row="0" Grid.Column="1" Style="{StaticResource MonoText}" Margin="0,0,12,8" />
+                        <TextBlock x:Name="ActiveStateText" Grid.Row="0" Grid.Column="2" Style="{StaticResource PillText}" Margin="0,0,0,8" />
+
+                        <TextBlock Grid.Row="1" Grid.Column="0" Text="Main" Style="{StaticResource LabelText}" Margin="0,0,16,8" />
+                        <TextBlock x:Name="MainPathText" Grid.Row="1" Grid.Column="1" Style="{StaticResource MonoText}" Margin="0,0,12,8" />
+                        <TextBlock x:Name="MainStateText" Grid.Row="1" Grid.Column="2" Style="{StaticResource PillText}" Margin="0,0,0,8" />
+
+                        <TextBlock Grid.Row="2" Grid.Column="0" Text="Daddy" Style="{StaticResource LabelText}" Margin="0,0,16,0" />
+                        <TextBlock x:Name="DaddyPathText" Grid.Row="2" Grid.Column="1" Style="{StaticResource MonoText}" Margin="0,0,12,0" />
+                        <TextBlock x:Name="DaddyStateText" Grid.Row="2" Grid.Column="2" Style="{StaticResource PillText}" />
+                    </Grid>
+                </StackPanel>
+            </Border>
+
+            <!-- Checks -->
+            <Border Style="{StaticResource Card}">
+                <StackPanel>
+                    <TextBlock Text="Checks" Style="{StaticResource SectionHeader}" />
+                    <ItemsControl x:Name="ChecksHost">
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <Grid Margin="0,0,0,10">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="22" />
+                                        <ColumnDefinition Width="200" />
+                                        <ColumnDefinition Width="*" />
+                                    </Grid.ColumnDefinitions>
+
+                                    <TextBlock Grid.Column="0" Text="{Binding Glyph}"
+                                               FontFamily="Segoe Fluent Icons, Segoe MDL2 Assets"
+                                               FontSize="13"
+                                               Foreground="{Binding Color}"
+                                               VerticalAlignment="Center" />
+
+                                    <TextBlock Grid.Column="1" Text="{Binding Name}"
+                                               FontSize="13"
+                                               Foreground="{StaticResource TextPrimaryBrush}"
+                                               VerticalAlignment="Center"
+                                               Margin="0,0,12,0" />
+
+                                    <TextBlock Grid.Column="2" Text="{Binding Detail}"
+                                               FontSize="12"
+                                               Foreground="{StaticResource TextSecondaryBrush}"
+                                               TextWrapping="Wrap"
+                                               VerticalAlignment="Center" />
+                                </Grid>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                </StackPanel>
+            </Border>
+
+            <!-- Connectivity -->
+            <Border Style="{StaticResource Card}" Margin="0,0,0,0">
+                <StackPanel>
+                    <Grid Margin="0,0,0,10">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Grid.Column="0" Text="Steam connectivity"
+                                   Style="{StaticResource SectionHeader}" Margin="0" />
+                        <Button x:Name="TestButton" Grid.Column="1" Style="{StaticResource SubtleButton}"
+                                Content="Test now" Click="OnTestConnectivityClick" />
+                    </Grid>
+
+                    <TextBlock x:Name="ConnectivityText" Style="{StaticResource BodyText}"
+                               Text="Not tested yet." />
+                </StackPanel>
+            </Border>
+
+        </StackPanel>
+    </ScrollViewer>
+</Page>

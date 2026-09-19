@@ -1,0 +1,70 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net9.0-windows</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <UseWPF>true</UseWPF>
+    <LangVersion>latest</LangVersion>
+
+    <!-- Shown in the title bar and the About tab. Bump on each release. -->
+    <Version>2.2.0</Version>
+    <AssemblyVersion>2.2.0.0</AssemblyVersion>
+    <FileVersion>2.2.0.0</FileVersion>
+    <InformationalVersion>2.2.0</InformationalVersion>
+    <Product>AizenRex Steam Switcher</Product>
+    <Company>Aizenrex x Riyad</Company>
+    <Authors>Aizenrex x Riyad</Authors>
+    <AssemblyName>SteamSwitcher</AssemblyName>
+    <RootNamespace>SteamSwitcher</RootNamespace>
+    <ApplicationManifest>app.manifest</ApplicationManifest>
+    <ApplicationIcon>Assets\app.ico</ApplicationIcon>
+    <!-- Version and credit are declared once, higher up in this file. -->
+
+    <AssemblyTitle>AizenRex Steam Switcher</AssemblyTitle>
+    <SatelliteResourceLanguages>en</SatelliteResourceLanguages>
+    <EnableWindowsTargeting>true</EnableWindowsTargeting>
+    <PlatformTarget>x64</PlatformTarget>
+
+    <!-- ============ Startup performance ============
+         Without ReadyToRun every launch JIT-compiles WPF and the UI library
+         from scratch, which was the bulk of the old start-up delay.
+         R2R ships pre-compiled native code, so the window appears far sooner.
+         TieredPGO then re-optimises the hot paths while the app runs. -->
+    <PublishReadyToRun>true</PublishReadyToRun>
+    <!-- Composite R2R bundles the whole framework into one image, which made
+         the FIRST launch far slower (measured 39s) because Windows has to
+         fault in a single huge image before anything renders. Per-assembly
+         R2R keeps the pre-compiled code without that penalty. -->
+    <PublishReadyToRunComposite>false</PublishReadyToRunComposite>
+    <TieredCompilation>true</TieredCompilation>
+    <TieredCompilationQuickStartup>true</TieredCompilationQuickStartup>
+    <TieredPGO>true</TieredPGO>
+
+    <!-- NOTE: InvariantGlobalization must stay OFF. WPF data binding asks for
+         a specific culture ("en-us"), and with ICU stripped that throws
+         "Cannot find non-neutral culture", which breaks the window template
+         before it can render. The small startup saving is not worth it. -->
+    <InvariantGlobalization>false</InvariantGlobalization>
+
+    <!-- Single-file extraction to disk is slower on first run than keeping
+         the framework files beside the exe, so don't compress the bundle. -->
+    <EnableCompressionInSingleFile>false</EnableCompressionInSingleFile>
+    <DebugType>none</DebugType>
+    <GenerateDocumentationFile>false</GenerateDocumentationFile>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <!-- ModernWpfUI was left over from the original build. The app now uses
+         WPF-UI exclusively, so loading a second theming library at start-up
+         was pure cost. -->
+    <PackageReference Include="WPF-UI" Version="4.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <!-- Embedded so Window.Icon can resolve it from a single-file exe. -->
+    <Resource Include="Assets\app.ico" />
+  </ItemGroup>
+
+</Project>

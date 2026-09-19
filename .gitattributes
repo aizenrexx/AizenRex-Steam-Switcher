@@ -1,0 +1,23 @@
+# Normalise line endings so a Windows checkout and the Linux CI runner agree.
+* text=auto eol=lf
+
+*.cs        text diff=csharp
+*.xaml      text
+*.csproj    text
+*.sln       text eol=crlf
+*.ps1       text eol=crlf
+*.iss       text eol=crlf
+*.yml       text
+*.md        text
+*.json      text
+*.txt       text
+
+# Binary - never diff, never convert.
+*.png       binary
+*.jpg       binary
+*.ico       binary
+*.exe       binary
+*.dll       binary
+*.zip       binary
+*.vdf       binary
+*.cok       binary

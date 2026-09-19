@@ -1,0 +1,108 @@
+<Page x:Class="SteamSwitcher.Pages.ComparePage"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml">
+
+    <ScrollViewer VerticalScrollBarVisibility="Auto">
+        <StackPanel Margin="0,0,8,20">
+
+            <TextBlock Text="Compare" Style="{StaticResource PageTitle}" />
+            <TextBlock Style="{StaticResource PageSubtitle}"
+                       Text="Side-by-side view of what each profile contains." />
+
+            <!-- Summary table -->
+            <Border Style="{StaticResource Card}">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="110" />
+                        <ColumnDefinition Width="110" />
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+
+                    <!-- header -->
+                    <TextBlock Grid.Row="0" Grid.Column="0" Text="METRIC" Style="{StaticResource LabelText}" />
+                    <TextBlock x:Name="MainHeader" Grid.Row="0" Grid.Column="1" Text="MAIN"
+                               Style="{StaticResource LabelText}"
+                               Foreground="{StaticResource MainProfileBrush}" />
+                    <TextBlock x:Name="DaddyHeader" Grid.Row="0" Grid.Column="2" Text="DADDY"
+                               Style="{StaticResource LabelText}"
+                               Foreground="{StaticResource DaddyProfileBrush}" />
+
+                    <Border Grid.Row="1" Grid.ColumnSpan="3" Height="1"
+                            Background="{StaticResource CardBorderBrush}" Margin="0,0,0,10" />
+
+                    <TextBlock Grid.Row="2" Grid.Column="0" Text="Games installed" Style="{StaticResource ValueText}" Margin="0,0,0,8" />
+                    <TextBlock x:Name="MainGames" Grid.Row="2" Grid.Column="1" Text="—" Style="{StaticResource ValueText}" />
+                    <TextBlock x:Name="DaddyGames" Grid.Row="2" Grid.Column="2" Text="—" Style="{StaticResource ValueText}" />
+
+                    <TextBlock Grid.Row="3" Grid.Column="0" Text="Game data size" Style="{StaticResource ValueText}" Margin="0,0,0,8" />
+                    <TextBlock x:Name="MainSize" Grid.Row="3" Grid.Column="1" Text="—" Style="{StaticResource ValueText}" />
+                    <TextBlock x:Name="DaddySize" Grid.Row="3" Grid.Column="2" Text="—" Style="{StaticResource ValueText}" />
+
+                    <TextBlock Grid.Row="4" Grid.Column="0" Text="Lua mods (stplug-in)" Style="{StaticResource ValueText}" Margin="0,0,0,8" />
+                    <TextBlock x:Name="MainMods" Grid.Row="4" Grid.Column="1" Text="—" Style="{StaticResource ValueText}" />
+                    <TextBlock x:Name="DaddyMods" Grid.Row="4" Grid.Column="2" Text="—" Style="{StaticResource ValueText}" />
+
+                    <TextBlock Grid.Row="5" Grid.Column="0" Text="Depot manifests" Style="{StaticResource ValueText}" />
+                    <TextBlock x:Name="MainManifests" Grid.Row="5" Grid.Column="1" Text="—" Style="{StaticResource ValueText}" />
+                    <TextBlock x:Name="DaddyManifests" Grid.Row="5" Grid.Column="2" Text="—" Style="{StaticResource ValueText}" />
+                </Grid>
+            </Border>
+
+            <!-- Exclusive games -->
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="14" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+
+                <Border Grid.Column="0" Style="{StaticResource Card}" Margin="0">
+                    <StackPanel>
+                        <TextBlock x:Name="MainOnlyHeader" Text="Only in Main"
+                                   Style="{StaticResource SectionHeader}" />
+                        <TextBlock x:Name="MainOnlyEmpty" Text="Nothing exclusive."
+                                   Style="{StaticResource BodyText}" />
+                        <ListBox x:Name="MainOnlyList" MaxHeight="220"
+                                 Background="Transparent" BorderThickness="0"
+                                 Foreground="{StaticResource TextSecondaryBrush}" />
+                    </StackPanel>
+                </Border>
+
+                <Border Grid.Column="2" Style="{StaticResource Card}" Margin="0">
+                    <StackPanel>
+                        <TextBlock x:Name="DaddyOnlyHeader" Text="Only in Daddy"
+                                   Style="{StaticResource SectionHeader}" />
+                        <TextBlock x:Name="DaddyOnlyEmpty" Text="Nothing exclusive."
+                                   Style="{StaticResource BodyText}" />
+                        <ListBox x:Name="DaddyOnlyList" MaxHeight="220"
+                                 Background="Transparent" BorderThickness="0"
+                                 Foreground="{StaticResource TextSecondaryBrush}" />
+                    </StackPanel>
+                </Border>
+            </Grid>
+
+            <!-- Shared -->
+            <Border Style="{StaticResource Card}" Margin="0,14,0,0">
+                <StackPanel>
+                    <TextBlock x:Name="SharedHeader" Text="In both profiles"
+                               Style="{StaticResource SectionHeader}" />
+                    <TextBlock x:Name="SharedEmpty" Text="No shared games."
+                               Style="{StaticResource BodyText}" />
+                    <ListBox x:Name="SharedList" MaxHeight="200"
+                             Background="Transparent" BorderThickness="0"
+                             Foreground="{StaticResource TextSecondaryBrush}" />
+                </StackPanel>
+            </Border>
+
+        </StackPanel>
+    </ScrollViewer>
+</Page>

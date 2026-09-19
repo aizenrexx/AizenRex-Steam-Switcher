@@ -1,0 +1,248 @@
+<Page x:Class="SteamSwitcher.Pages.DashboardPage"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml">
+
+    <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+        <StackPanel Margin="0,0,8,20">
+
+            <TextBlock Text="Dashboard" Style="{StaticResource PageTitle}" />
+            <TextBlock x:Name="SubtitleText" Style="{StaticResource PageSubtitle}"
+                       Text="Switch between your Steam profiles." />
+
+            <!-- ============ Recovery banner ============ -->
+            <Border x:Name="RecoveryBanner" Visibility="Collapsed"
+                    Background="#26D29922" BorderBrush="{StaticResource WarningBrush}"
+                    BorderThickness="1" CornerRadius="10" Padding="16" Margin="0,0,0,14">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+
+                    <TextBlock Grid.Column="0" FontFamily="Segoe Fluent Icons, Segoe MDL2 Assets"
+                               Text="&#xE7BA;" FontSize="18"
+                               Foreground="{StaticResource WarningBrush}"
+                               VerticalAlignment="Center" Margin="0,0,14,0" />
+
+                    <StackPanel Grid.Column="1" VerticalAlignment="Center">
+                        <TextBlock Text="Folder layout needs attention"
+                                   FontSize="13" FontWeight="SemiBold"
+                                   Foreground="{StaticResource TextPrimaryBrush}" />
+                        <TextBlock x:Name="RecoveryText" Style="{StaticResource BodyText}"
+                                   Margin="0,3,0,0" />
+                    </StackPanel>
+
+                    <Button x:Name="RepairButton" Grid.Column="2"
+                            Style="{StaticResource SubtleButton}"
+                            Content="Repair" Click="OnRepairClick"
+                            VerticalAlignment="Center" Margin="12,0,0,0" />
+                </Grid>
+            </Border>
+
+            <!-- ============ Profile cards ============ -->
+            <Grid Margin="0,0,0,6">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="14" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+
+                <!-- MAIN -->
+                <Border x:Name="MainCard" Grid.Column="0" Style="{StaticResource Card}" Margin="0">
+                    <StackPanel>
+                        <Grid Margin="0,0,0,14">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
+
+                            <Border Grid.Column="0" Width="42" Height="42" CornerRadius="10"
+                                    Background="#263FB950" Margin="0,0,13,0">
+                                <TextBlock Text="&#xE77B;" FontSize="19"
+                                           FontFamily="Segoe Fluent Icons, Segoe MDL2 Assets"
+                                           Foreground="{StaticResource MainProfileBrush}"
+                                           HorizontalAlignment="Center" VerticalAlignment="Center" />
+                            </Border>
+
+                            <StackPanel Grid.Column="1" VerticalAlignment="Center">
+                                <TextBlock x:Name="MainNameText" Text="Steam Main"
+                                           FontSize="16" FontWeight="SemiBold"
+                                           Foreground="{StaticResource TextPrimaryBrush}" />
+                                <TextBlock x:Name="MainAccountText" Text="—"
+                                           FontSize="12"
+                                           Foreground="{StaticResource TextSecondaryBrush}"
+                                           TextTrimming="CharacterEllipsis" />
+                            </StackPanel>
+
+                            <Border x:Name="MainActivePill" Grid.Column="2"
+                                    Style="{StaticResource Pill}"
+                                    Background="#263FB950" Visibility="Collapsed">
+                                <TextBlock Text="ACTIVE" Style="{StaticResource PillText}"
+                                           Foreground="{StaticResource MainProfileBrush}" />
+                            </Border>
+                        </Grid>
+
+                        <Grid Margin="0,0,0,16">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+
+                            <StackPanel Grid.Column="0">
+                                <TextBlock Text="GAMES" Style="{StaticResource LabelText}" />
+                                <TextBlock x:Name="MainGamesText" Text="—" Style="{StaticResource ValueText}" />
+                            </StackPanel>
+                            <StackPanel Grid.Column="1">
+                                <TextBlock Text="SIZE" Style="{StaticResource LabelText}" />
+                                <TextBlock x:Name="MainSizeText" Text="—" Style="{StaticResource ValueText}" />
+                            </StackPanel>
+                            <StackPanel Grid.Column="2">
+                                <TextBlock Text="MODS" Style="{StaticResource LabelText}" />
+                                <TextBlock x:Name="MainModsText" Text="—" Style="{StaticResource ValueText}" />
+                            </StackPanel>
+                        </Grid>
+
+                        <Button x:Name="SwitchToMainButton" Style="{StaticResource PrimaryButton}"
+                                Background="{StaticResource MainProfileBrush}"
+                                HorizontalAlignment="Stretch"
+                                Click="OnSwitchToMainClick">
+                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                                <TextBlock FontFamily="Segoe Fluent Icons, Segoe MDL2 Assets"
+                                           Text="&#xE8AB;" FontSize="13" Margin="0,0,8,0" />
+                                <TextBlock x:Name="MainButtonText" Text="Switch to Main" />
+                            </StackPanel>
+                        </Button>
+                    </StackPanel>
+                </Border>
+
+                <!-- DADDY -->
+                <Border x:Name="DaddyCard" Grid.Column="2" Style="{StaticResource Card}" Margin="0">
+                    <StackPanel>
+                        <Grid Margin="0,0,0,14">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
+
+                            <Border Grid.Column="0" Width="42" Height="42" CornerRadius="10"
+                                    Background="#26A371F7" Margin="0,0,13,0">
+                                <TextBlock Text="&#xE945;" FontSize="19"
+                                           FontFamily="Segoe Fluent Icons, Segoe MDL2 Assets"
+                                           Foreground="{StaticResource DaddyProfileBrush}"
+                                           HorizontalAlignment="Center" VerticalAlignment="Center" />
+                            </Border>
+
+                            <StackPanel Grid.Column="1" VerticalAlignment="Center">
+                                <TextBlock x:Name="DaddyNameText" Text="Steam Daddy"
+                                           FontSize="16" FontWeight="SemiBold"
+                                           Foreground="{StaticResource TextPrimaryBrush}" />
+                                <TextBlock x:Name="DaddyAccountText" Text="—"
+                                           FontSize="12"
+                                           Foreground="{StaticResource TextSecondaryBrush}"
+                                           TextTrimming="CharacterEllipsis" />
+                            </StackPanel>
+
+                            <Border x:Name="DaddyActivePill" Grid.Column="2"
+                                    Style="{StaticResource Pill}"
+                                    Background="#26A371F7" Visibility="Collapsed">
+                                <TextBlock Text="ACTIVE" Style="{StaticResource PillText}"
+                                           Foreground="{StaticResource DaddyProfileBrush}" />
+                            </Border>
+                        </Grid>
+
+                        <Grid Margin="0,0,0,16">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+
+                            <StackPanel Grid.Column="0">
+                                <TextBlock Text="GAMES" Style="{StaticResource LabelText}" />
+                                <TextBlock x:Name="DaddyGamesText" Text="—" Style="{StaticResource ValueText}" />
+                            </StackPanel>
+                            <StackPanel Grid.Column="1">
+                                <TextBlock Text="SIZE" Style="{StaticResource LabelText}" />
+                                <TextBlock x:Name="DaddySizeText" Text="—" Style="{StaticResource ValueText}" />
+                            </StackPanel>
+                            <StackPanel Grid.Column="2">
+                                <TextBlock Text="MODS" Style="{StaticResource LabelText}" />
+                                <TextBlock x:Name="DaddyModsText" Text="—" Style="{StaticResource ValueText}" />
+                            </StackPanel>
+                        </Grid>
+
+                        <Button x:Name="SwitchToDaddyButton" Style="{StaticResource PrimaryButton}"
+                                Background="{StaticResource DaddyProfileBrush}"
+                                HorizontalAlignment="Stretch"
+                                Click="OnSwitchToDaddyClick">
+                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                                <TextBlock FontFamily="Segoe Fluent Icons, Segoe MDL2 Assets"
+                                           Text="&#xE8AB;" FontSize="13" Margin="0,0,8,0" />
+                                <TextBlock x:Name="DaddyButtonText" Text="Switch to Daddy" />
+                            </StackPanel>
+                        </Button>
+                    </StackPanel>
+                </Border>
+            </Grid>
+
+            <!-- ============ Quick metrics ============ -->
+            <TextBlock Text="At a glance" Style="{StaticResource SectionHeader}" Margin="0,16,0,10" />
+
+            <ItemsControl x:Name="MetricsHost">
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <WrapPanel Orientation="Horizontal" />
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <Border Style="{StaticResource MetricCard}">
+                            <StackPanel>
+                                <TextBlock Text="{Binding Label}" Style="{StaticResource LabelText}" />
+                                <TextBlock Text="{Binding Value}" Style="{StaticResource MetricValue}" />
+                                <TextBlock Text="{Binding Note}" FontSize="11"
+                                           Foreground="{StaticResource TextMutedBrush}"
+                                           Margin="0,2,0,0" />
+                            </StackPanel>
+                        </Border>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+
+            <!-- ============ Running processes ============ -->
+            <Border Style="{StaticResource Card}" Margin="0,8,0,0">
+                <StackPanel>
+                    <Grid Margin="0,0,0,10">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Grid.Column="0" Text="Steam processes"
+                                   Style="{StaticResource SectionHeader}" Margin="0" />
+                        <Button x:Name="CloseSteamButton" Grid.Column="1"
+                                Style="{StaticResource DangerButton}"
+                                Content="Close Steam" Click="OnCloseSteamClick" />
+                    </Grid>
+
+                    <TextBlock x:Name="NoProcessText" Text="Steam is not running."
+                               Style="{StaticResource BodyText}" />
+
+                    <DataGrid x:Name="ProcessGrid" Style="{StaticResource CleanGrid}"
+                              MaxHeight="180" Visibility="Collapsed">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="Process" Binding="{Binding Name}" Width="*" />
+                            <DataGridTextColumn Header="PID" Binding="{Binding Pid}" Width="90" />
+                            <DataGridTextColumn Header="Memory" Binding="{Binding MemoryText}" Width="110" />
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </StackPanel>
+            </Border>
+
+        </StackPanel>
+    </ScrollViewer>
+</Page>

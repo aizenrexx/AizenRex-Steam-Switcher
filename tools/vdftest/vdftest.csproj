@@ -1,0 +1,20 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <!-- WPF is needed because the Core classes live in a WPF assembly. -->
+    <TargetFramework>net9.0-windows</TargetFramework>
+    <UseWPF>true</UseWPF>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <AssemblyName>vdftest</AssemblyName>
+    <RootNamespace>VdfTest</RootNamespace>
+    <!-- Keep this harness out of the shipped app's publish output. -->
+    <IsPublishable>false</IsPublishable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\SteamSwitcher\SteamSwitcher.csproj" />
+  </ItemGroup>
+
+</Project>

@@ -1,0 +1,577 @@
+<Page x:Class="SteamSwitcher.Pages.SettingsPage"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml">
+
+    <!--
+        Tabs, not one long scroll. Everything below the first screen used to be
+        invisible unless you knew to scroll, which is how the SteamDaddy card
+        and its update link went unnoticed. Each group is now one click away.
+    -->
+    <Grid Margin="0,0,10,0">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <StackPanel Grid.Row="0">
+            <TextBlock Text="Settings" Style="{StaticResource PageTitle}" />
+            <TextBlock Style="{StaticResource PageSubtitle}"
+                       Text="Paths, switching behaviour, appearance and safety locks." />
+        </StackPanel>
+
+        <TabControl Grid.Row="1" x:Name="SettingsTabs" Margin="0,8,0,0"
+                    Background="Transparent" BorderThickness="0">
+
+        <TabItem Header="Folders">
+        <ScrollViewer VerticalScrollBarVisibility="Auto">
+        <StackPanel x:Name="RootStack" Margin="0,8,4,24">
+
+            <!-- ==================== Folder paths ==================== -->
+            <Border Style="{StaticResource SettingsGroup}">
+                <StackPanel>
+                    <StackPanel Orientation="Horizontal" Margin="0,0,0,4">
+                        <TextBlock Style="{StaticResource GroupIcon}" Text="&#xE8B7;"
+                                   Foreground="{StaticResource AccentBrush}" />
+                        <StackPanel>
+                            <TextBlock Text="Folder paths" Style="{StaticResource SectionHeader}" Margin="0" />
+                            <TextBlock Style="{StaticResource HintText}"
+                                       Text="The active folder is where Steam runs from. The others park each profile while it is idle." />
+                        </StackPanel>
+                    </StackPanel>
+
+                    <!-- Active -->
+                    <Grid Margin="0,14,0,0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+                        <StackPanel Grid.Column="0">
+                            <TextBlock Text="ACTIVE STEAM FOLDER" Style="{StaticResource LabelText}" />
+                            <ui:TextBox x:Name="SteamDirBox" TextChanged="OnPathChanged" />
+                        </StackPanel>
+                        <Button Grid.Column="1" Style="{StaticResource IconButton}"
+                                Content="&#xE838;" Tag="steam" Click="OnBrowseClick"
+                                ToolTip="Browse for folder" Margin="8,20,0,0" />
+                    </Grid>
+
+                    <!-- Main -->
+                    <Grid Margin="0,12,0,0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+                        <StackPanel Grid.Column="0">
+                            <TextBlock Text="MAIN PROFILE FOLDER" Style="{StaticResource LabelText}" />
+                            <ui:TextBox x:Name="MainDirBox" TextChanged="OnPathChanged" />
+                        </StackPanel>
+                        <Button Grid.Column="1" Style="{StaticResource IconButton}"
+                                Content="&#xE838;" Tag="main" Click="OnBrowseClick"
+                                ToolTip="Browse for folder" Margin="8,20,0,0" />
+                    </Grid>
+
+                    <!-- Daddy -->
+                    <Grid Margin="0,12,0,0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+                        <StackPanel Grid.Column="0">
+                            <TextBlock Text="DADDY PROFILE FOLDER" Style="{StaticResource LabelText}" />
+                            <ui:TextBox x:Name="DaddyDirBox" TextChanged="OnPathChanged" />
+                        </StackPanel>
+                        <Button Grid.Column="1" Style="{StaticResource IconButton}"
+                                Content="&#xE838;" Tag="daddy" Click="OnBrowseClick"
+                                ToolTip="Browse for folder" Margin="8,20,0,0" />
+                    </Grid>
+
+                    <!-- Base -->
+                    <Grid Margin="0,12,0,0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+                        <StackPanel Grid.Column="0">
+                            <TextBlock Text="BASE FOLDER (write permission check)" Style="{StaticResource LabelText}" />
+                            <ui:TextBox x:Name="BaseDirBox" TextChanged="OnPathChanged" />
+                        </StackPanel>
+                        <Button Grid.Column="1" Style="{StaticResource IconButton}"
+                                Content="&#xE838;" Tag="base" Click="OnBrowseClick"
+                                ToolTip="Browse for folder" Margin="8,20,0,0" />
+                    </Grid>
+
+                    <!-- Live validation strip -->
+                    <Border x:Name="PathWarning" Visibility="Collapsed" Opacity="0"
+                            Background="#26D29922" CornerRadius="8" Padding="12,10" Margin="0,14,0,0">
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="&#xE7BA;" FontFamily="Segoe MDL2 Assets" FontSize="14"
+                                       Foreground="{StaticResource WarningBrush}"
+                                       VerticalAlignment="Center" Margin="0,0,9,0" />
+                            <TextBlock x:Name="PathWarningText" Style="{StaticResource BodyText}"
+                                       TextWrapping="Wrap" Foreground="{StaticResource WarningBrush}" />
+                        </StackPanel>
+                    </Border>
+                </StackPanel>
+            </Border>
+
+        </StackPanel>
+        </ScrollViewer>
+        </TabItem>
+
+        <TabItem Header="Switching">
+        <ScrollViewer VerticalScrollBarVisibility="Auto">
+        <StackPanel Margin="0,8,4,24">
+
+            <!-- ==================== Switching behaviour ==================== -->
+            <Border Style="{StaticResource SettingsGroup}">
+                <StackPanel>
+                    <StackPanel Orientation="Horizontal" Margin="0,0,0,4">
+                        <TextBlock Style="{StaticResource GroupIcon}" Text="&#xE895;"
+                                   Foreground="{StaticResource MainProfileBrush}" />
+                        <StackPanel>
+                            <TextBlock Text="Switching behaviour" Style="{StaticResource SectionHeader}" Margin="0" />
+                            <TextBlock Style="{StaticResource HintText}"
+                                       Text="What happens each time you swap profiles." />
+                        </StackPanel>
+                    </StackPanel>
+
+                    <!-- Animated toggle rows -->
+                    <Grid Style="{StaticResource SettingRow}" Margin="0,12,0,0">
+                        <StackPanel>
+                            <TextBlock Text="Confirm before switching" Style="{StaticResource RowTitle}" />
+                            <TextBlock Text="Show a summary dialog with a preflight check." Style="{StaticResource RowHint}" />
+                        </StackPanel>
+                        <ui:ToggleSwitch x:Name="ConfirmSwitchBox" HorizontalAlignment="Right" />
+                    </Grid>
+
+                    <Grid Style="{StaticResource SettingRow}">
+                        <StackPanel>
+                            <TextBlock Text="Back up config before switching" Style="{StaticResource RowTitle}" />
+                            <TextBlock Text="Copies loginusers.vdf, config.vdf and userdata." Style="{StaticResource RowHint}" />
+                        </StackPanel>
+                        <ui:ToggleSwitch x:Name="BackupBeforeSwitchBox" HorizontalAlignment="Right" />
+                    </Grid>
+
+                    <Grid Style="{StaticResource SettingRow}">
+                        <StackPanel>
+                            <TextBlock Text="Sync sign-in account" Style="{StaticResource RowTitle}" />
+                            <TextBlock Text="Re-applies auto-login so Steam opens on the right account." Style="{StaticResource RowHint}" />
+                        </StackPanel>
+                        <ui:ToggleSwitch x:Name="SyncAutoLoginBox" HorizontalAlignment="Right" />
+                    </Grid>
+
+                    <Grid Style="{StaticResource SettingRow}">
+                        <StackPanel>
+                            <TextBlock Text="Launch Steam after switching" Style="{StaticResource RowTitle}" />
+                            <TextBlock Text="Starts steam.exe as soon as the swap finishes." Style="{StaticResource RowHint}" />
+                        </StackPanel>
+                        <ui:ToggleSwitch x:Name="AutoLaunchBox" HorizontalAlignment="Right" />
+                    </Grid>
+
+                    <Grid Style="{StaticResource SettingRow}">
+                        <StackPanel>
+                            <TextBlock Text="Auto-refresh the view" Style="{StaticResource RowTitle}" />
+                            <TextBlock Text="Keeps folder and process info current." Style="{StaticResource RowHint}" />
+                        </StackPanel>
+                        <ui:ToggleSwitch x:Name="AutoRefreshBox" HorizontalAlignment="Right"
+                                         Checked="OnAutoRefreshToggled" Unchecked="OnAutoRefreshToggled" />
+                    </Grid>
+
+                    <!-- Interval, hidden when auto-refresh is off -->
+                    <Border x:Name="IntervalPanel" Background="#12FFFFFF" CornerRadius="9"
+                            Padding="14,12" Margin="0,10,0,0">
+                        <StackPanel>
+                            <Grid>
+                                <TextBlock Text="REFRESH INTERVAL" Style="{StaticResource LabelText}" Margin="0" />
+                                <Border Background="{StaticResource AccentBrush}" CornerRadius="9"
+                                        Padding="9,2" HorizontalAlignment="Right">
+                                    <TextBlock x:Name="RefreshValueText" Text="10 s"
+                                               FontSize="11" FontWeight="SemiBold" Foreground="White" />
+                                </Border>
+                            </Grid>
+                            <Slider x:Name="RefreshSlider" Margin="0,8,0,0"
+                                    Minimum="3" Maximum="300" TickFrequency="1"
+                                    IsSnapToTickEnabled="True"
+                                    ValueChanged="OnRefreshSliderChanged" />
+                            <Grid Margin="0,2,0,0">
+                                <TextBlock Text="3 s" Style="{StaticResource HintText}" HorizontalAlignment="Left" />
+                                <TextBlock Text="5 min" Style="{StaticResource HintText}" HorizontalAlignment="Right" />
+                            </Grid>
+                        </StackPanel>
+                    </Border>
+                </StackPanel>
+            </Border>
+
+        </StackPanel>
+        </ScrollViewer>
+        </TabItem>
+
+        <TabItem Header="SteamDaddy">
+        <ScrollViewer VerticalScrollBarVisibility="Auto">
+        <StackPanel Margin="0,8,4,24">
+
+            <!-- ==================== SteamDaddy ==================== -->
+            <Border Style="{StaticResource SettingsGroup}">
+                <StackPanel>
+                    <StackPanel Orientation="Horizontal" Margin="0,0,0,4">
+                        <TextBlock Style="{StaticResource GroupIcon}" Text="&#xE896;"
+                                   Foreground="{StaticResource DaddyProfileBrush}" />
+                        <StackPanel>
+                            <TextBlock Text="SteamDaddy" Style="{StaticResource SectionHeader}" Margin="0" />
+                            <TextBlock Style="{StaticResource HintText}" TextWrapping="Wrap"
+                                       Text="Keeps the patcher current when you switch to the Daddy profile." />
+                        </StackPanel>
+                    </StackPanel>
+
+                    <Grid Style="{StaticResource SettingRow}" Margin="0,12,0,0">
+                        <StackPanel>
+                            <TextBlock Text="Auto-update on switch" Style="{StaticResource RowTitle}" />
+                            <TextBlock Style="{StaticResource RowHint}"
+                                       Text="Checks the latest release when switching to Daddy and installs it only when a newer one exists. Nothing happens when you are up to date." />
+                        </StackPanel>
+                        <ui:ToggleSwitch x:Name="AutoUpdateDaddyBox" HorizontalAlignment="Right" />
+                    </Grid>
+
+                    <Grid Style="{StaticResource SettingRow}" Margin="0,6,0,0">
+                        <StackPanel>
+                            <TextBlock Text="Start Steam without the admin prompt" Style="{StaticResource RowTitle}" />
+                            <TextBlock Style="{StaticResource RowHint}"
+                                       Text="Registers a Windows task once so Steam can start with administrator rights on every switch without asking. UAC itself stays untouched." />
+                        </StackPanel>
+                        <ui:ToggleSwitch x:Name="SilentElevationBox" HorizontalAlignment="Right" />
+                    </Grid>
+
+                    <Grid Margin="0,6,0,0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+                        <StackPanel Grid.Column="0">
+                            <TextBlock Text="STEAMDADDY.EXE (optional)" Style="{StaticResource LabelText}" />
+                            <ui:TextBox x:Name="DaddyExeBox" PlaceholderText="Desktop\SteamDaddy.exe" />
+                        </StackPanel>
+                        <Button Grid.Column="1" Style="{StaticResource IconButton}"
+                                Content="&#xE838;" Tag="daddyexe" Click="OnBrowseClick"
+                                ToolTip="Locate SteamDaddy.exe" Margin="8,20,0,0" />
+                    </Grid>
+
+                    <StackPanel Margin="0,10,0,0">
+                        <TextBlock Text="UPDATE LINK" Style="{StaticResource LabelText}" />
+                        <ui:TextBox x:Name="DaddyUpdateUrlBox"
+                                    PlaceholderText="https://api.github.com/repos/.../releases/latest" />
+                        <TextBlock Style="{StaticResource RowHint}" TextWrapping="Wrap" Margin="0,4,0,0"
+                                   Text="Saved once and reused for every check. If the SteamDaddy team ever moves to a new repo, paste the new link here. Leave empty to return to the official source." />
+                    </StackPanel>
+
+                    <Grid Margin="0,14,0,0">
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
+                            <Button Style="{StaticResource SubtleButton}"
+                                    Content="Check now" Click="OnCheckDaddyUpdateClick" />
+                            <Button Style="{StaticResource SubtleButton}" Margin="8,0,0,0"
+                                    Content="Reset link" Click="OnResetUpdateUrlClick" />
+                            <TextBlock x:Name="DaddyUpdateStatus" Style="{StaticResource HintText}"
+                                       VerticalAlignment="Center" Margin="12,0,0,0" />
+                        </StackPanel>
+                    </Grid>
+
+                    <TextBlock Style="{StaticResource HintText}" Margin="0,12,0,0" TextWrapping="Wrap"
+                               Text="After an update, open SteamDaddy and click Install Plugin to finish setup." />
+
+                    <!-- Notices published by the SteamDaddy team -->
+                    <Border x:Name="UpstreamNoticePanel" Visibility="Collapsed"
+                            Margin="0,14,0,0" Padding="14,12" CornerRadius="7"
+                            Background="{StaticResource CardHoverBrush}"
+                            BorderThickness="1" BorderBrush="{StaticResource WarningBrush}">
+                        <StackPanel>
+                            <StackPanel Orientation="Horizontal" Margin="0,0,0,6">
+                                <TextBlock Text="&#xE7BA;" FontFamily="Segoe Fluent Icons" FontSize="15"
+                                           Foreground="{StaticResource WarningBrush}" Margin="0,0,8,0" />
+                                <TextBlock x:Name="UpstreamNoticeTitle" Text="Notice from the SteamDaddy team"
+                                           FontSize="13" FontWeight="SemiBold" />
+                            </StackPanel>
+                            <TextBlock x:Name="UpstreamNoticeText" TextWrapping="Wrap" FontSize="12"
+                                       Foreground="{StaticResource TextSecondaryBrush}" />
+                        </StackPanel>
+                    </Border>
+                </StackPanel>
+            </Border>
+
+        </StackPanel>
+        </ScrollViewer>
+        </TabItem>
+
+        <TabItem Header="Appearance">
+        <ScrollViewer VerticalScrollBarVisibility="Auto">
+        <StackPanel Margin="0,8,4,24">
+
+            <!-- ==================== Appearance ==================== -->
+            <Border Style="{StaticResource SettingsGroup}">
+                <StackPanel>
+                    <StackPanel Orientation="Horizontal" Margin="0,0,0,4">
+                        <TextBlock Style="{StaticResource GroupIcon}" Text="&#xE790;"
+                                   Foreground="{StaticResource DaddyProfileBrush}" />
+                        <StackPanel>
+                            <TextBlock Text="Appearance" Style="{StaticResource SectionHeader}" Margin="0" />
+                            <TextBlock Style="{StaticResource HintText}"
+                                       Text="Profile labels and the accent colour used across the app." />
+                        </StackPanel>
+                    </StackPanel>
+
+                    <Grid Margin="0,14,0,0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="16" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+
+                        <StackPanel Grid.Column="0">
+                            <TextBlock Text="MAIN PROFILE LABEL" Style="{StaticResource LabelText}" />
+                            <ui:TextBox x:Name="MainNameBox" />
+                        </StackPanel>
+
+                        <StackPanel Grid.Column="2">
+                            <TextBlock Text="DADDY PROFILE LABEL" Style="{StaticResource LabelText}" />
+                            <ui:TextBox x:Name="DaddyNameBox" />
+                        </StackPanel>
+                    </Grid>
+
+                    <TextBlock Text="ACCENT COLOUR" Style="{StaticResource LabelText}" Margin="0,16,0,0" />
+                    <ItemsControl x:Name="AccentSwatches">
+                        <ItemsControl.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <StackPanel Orientation="Horizontal" />
+                            </ItemsPanelTemplate>
+                        </ItemsControl.ItemsPanel>
+                    </ItemsControl>
+                </StackPanel>
+            </Border>
+
+        </StackPanel>
+        </ScrollViewer>
+        </TabItem>
+
+        <TabItem Header="Safety">
+        <ScrollViewer VerticalScrollBarVisibility="Auto">
+        <StackPanel Margin="0,8,4,24">
+
+            <!-- ==================== Safety lock ==================== -->
+            <Border Style="{StaticResource SettingsGroup}">
+                <StackPanel>
+                    <StackPanel Orientation="Horizontal" Margin="0,0,0,4">
+                        <TextBlock Style="{StaticResource GroupIcon}" Text="&#xE72E;"
+                                   Foreground="{StaticResource WarningBrush}" />
+                        <StackPanel>
+                            <TextBlock Text="Account safety lock" Style="{StaticResource SectionHeader}" Margin="0" />
+                            <TextBlock Style="{StaticResource HintText}" TextWrapping="Wrap"
+                                       Text="Optional. A switch is blocked when a folder holds a different account than expected." />
+                        </StackPanel>
+                    </StackPanel>
+
+                    <Grid Margin="0,14,0,0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="16" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+
+                        <StackPanel Grid.Column="0">
+                            <TextBlock Text="EXPECTED STEAMID64 — MAIN" Style="{StaticResource LabelText}" />
+                            <ui:TextBox x:Name="MainIdBox" PlaceholderText="Not locked"
+                                     TextChanged="OnSteamIdChanged" />
+                            <TextBlock x:Name="MainDetectedText" Style="{StaticResource HintText}" Margin="0,5,0,0" />
+                        </StackPanel>
+
+                        <StackPanel Grid.Column="2">
+                            <TextBlock Text="EXPECTED STEAMID64 — DADDY" Style="{StaticResource LabelText}" />
+                            <ui:TextBox x:Name="DaddyIdBox" PlaceholderText="Not locked"
+                                     TextChanged="OnSteamIdChanged" />
+                            <TextBlock x:Name="DaddyDetectedText" Style="{StaticResource HintText}" Margin="0,5,0,0" />
+                        </StackPanel>
+                    </Grid>
+
+                    <Button Style="{StaticResource SubtleButton}" HorizontalAlignment="Left"
+                            Content="Use detected IDs" Click="OnUseDetectedClick" Margin="0,14,0,0" />
+                </StackPanel>
+            </Border>
+
+            <!-- ==================== Save bar ==================== -->
+            <Border Style="{StaticResource SettingsGroup}">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+
+                    <StackPanel Grid.Column="0" VerticalAlignment="Center">
+                        <TextBlock x:Name="SaveHintText" Style="{StaticResource BodyText}"
+                                   Text="Stored in data\settings.json inside this app's folder." />
+                        <TextBlock x:Name="DirtyText" Style="{StaticResource HintText}"
+                                   Foreground="{StaticResource WarningBrush}"
+                                   Text="You have unsaved changes." Visibility="Collapsed" />
+                    </StackPanel>
+
+                    <Button Grid.Column="1" Style="{StaticResource SubtleButton}"
+                            Content="Reset to defaults" Click="OnResetClick" Margin="0,0,10,0" />
+
+                    <Button Grid.Column="2" Style="{StaticResource PrimaryButton}"
+                            Content="Save settings" Click="OnSaveClick" />
+                </Grid>
+            </Border>
+
+        </StackPanel>
+        </ScrollViewer>
+        </TabItem>
+
+        <!-- ==================== About ==================== -->
+        <TabItem Header="About">
+        <ScrollViewer VerticalScrollBarVisibility="Auto">
+        <StackPanel Margin="0,8,4,24">
+
+            <!-- Credit -->
+            <Border Style="{StaticResource SettingsGroup}">
+                <StackPanel>
+                    <StackPanel Orientation="Horizontal" Margin="0,0,0,4">
+                        <TextBlock Style="{StaticResource GroupIcon}" Text="&#xE946;"
+                                   Foreground="{StaticResource AccentBrush}" />
+                        <StackPanel>
+                            <TextBlock Text="Credit" Style="{StaticResource SectionHeader}" Margin="0" />
+                            <TextBlock Style="{StaticResource HintText}"
+                                       Text="Who built this, and where it lives." />
+                        </StackPanel>
+                    </StackPanel>
+
+                    <Border Margin="0,16,0,0" Padding="20,20" CornerRadius="10"
+                            Background="{StaticResource CardHoverBrush}">
+                        <StackPanel>
+                            <TextBlock x:Name="CreditAuthorText" Text="Aizenrex &#215; Riyad"
+                                       FontSize="22" FontWeight="Bold"
+                                       Foreground="{StaticResource AccentBrush}"
+                                       HorizontalAlignment="Center" />
+                            <TextBlock x:Name="CreditRoleText" Text="Design | Engineering | Maintenance"
+                                       FontSize="12" HorizontalAlignment="Center"
+                                       Margin="0,6,0,0"
+                                       Foreground="{StaticResource TextSecondaryBrush}" />
+                            <Border Height="1" Margin="0,16,0,14" Opacity="0.25"
+                                    Background="{StaticResource TextSecondaryBrush}" />
+                            <TextBlock x:Name="CreditProductText" Text="AizenRex Steam Switcher"
+                                       FontSize="14" FontWeight="SemiBold"
+                                       HorizontalAlignment="Center" />
+                            <TextBlock x:Name="CreditVersionText" Text="v2.2.0  -  MIT licence"
+                                       FontSize="12" HorizontalAlignment="Center"
+                                       Margin="0,6,0,0"
+                                       Foreground="{StaticResource TextSecondaryBrush}" />
+                        </StackPanel>
+                    </Border>
+
+                    <TextBlock Style="{StaticResource HintText}" Margin="0,14,0,0" TextWrapping="Wrap"
+                               Text="Released under the MIT licence. You may use, modify and redistribute this build, provided this credit stays in place." />
+
+                    <StackPanel Orientation="Horizontal" Margin="0,16,0,0">
+                        <Button Style="{StaticResource SubtleButton}" Content="Copy credit"
+                                Click="OnCopyCreditClick" Margin="0,0,10,0" />
+                        <Button Style="{StaticResource SubtleButton}" Content="GitHub repository"
+                                Click="OnOpenRepoClick" Margin="0,0,10,0" />
+                        <Button Style="{StaticResource SubtleButton}" Content="Report an issue"
+                                Click="OnOpenIssuesClick" />
+                    </StackPanel>
+                </StackPanel>
+            </Border>
+
+            <!-- Updates -->
+            <Border Style="{StaticResource SettingsGroup}">
+                <StackPanel>
+                    <StackPanel Orientation="Horizontal" Margin="0,0,0,4">
+                        <TextBlock Style="{StaticResource GroupIcon}" Text="&#xE895;"
+                                   Foreground="{StaticResource AccentBrush}" />
+                        <StackPanel>
+                            <TextBlock Text="Updates" Style="{StaticResource SectionHeader}" Margin="0" />
+                            <TextBlock Style="{StaticResource HintText}"
+                                       Text="Checks the releases published on GitHub." />
+                        </StackPanel>
+                    </StackPanel>
+
+                    <Grid Margin="0,16,0,0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Grid.Column="0" Text="INSTALLED" Style="{StaticResource LabelText}"
+                                   Margin="0,0,16,0" />
+                        <TextBlock Grid.Column="1" x:Name="UpdateCurrentVersionText"
+                                   Style="{StaticResource BodyText}" />
+                    </Grid>
+
+                    <TextBlock x:Name="UpdateStatusText" Style="{StaticResource BodyText}"
+                               Margin="0,12,0,0" TextWrapping="Wrap" Text="Not checked yet." />
+
+                    <TextBlock x:Name="UpdateNotesText" Style="{StaticResource HintText}"
+                               Margin="0,10,0,0" TextWrapping="Wrap" Visibility="Collapsed" />
+
+                    <StackPanel Orientation="Horizontal" Margin="0,16,0,0">
+                        <Button x:Name="CheckUpdateButton" Style="{StaticResource SubtleButton}"
+                                Content="Check for updates" Click="OnCheckUpdatesClick"
+                                Margin="0,0,10,0" />
+                        <Button x:Name="InstallUpdateButton" Style="{StaticResource PrimaryButton}"
+                                Content="Download and install" Click="OnInstallUpdateClick"
+                                IsEnabled="False" Margin="0,0,10,0" />
+                        <Button Style="{StaticResource SubtleButton}" Content="All releases"
+                                Click="OnOpenReleasesClick" />
+                    </StackPanel>
+
+                    <TextBlock Style="{StaticResource HintText}" Margin="0,14,0,0" TextWrapping="Wrap"
+                               Text="An update upgrades in place and keeps your settings, history and backups. It never touches your Steam folders." />
+                </StackPanel>
+            </Border>
+
+            <!-- This build -->
+            <Border Style="{StaticResource SettingsGroup}">
+                <StackPanel>
+                    <StackPanel Orientation="Horizontal" Margin="0,0,0,4">
+                        <TextBlock Style="{StaticResource GroupIcon}" Text="&#xE7C3;"
+                                   Foreground="{StaticResource AccentBrush}" />
+                        <StackPanel>
+                            <TextBlock Text="This build" Style="{StaticResource SectionHeader}" Margin="0" />
+                            <TextBlock Style="{StaticResource HintText}"
+                                       Text="Read from the running executable, never hard-coded." />
+                        </StackPanel>
+                    </StackPanel>
+
+                    <Grid Margin="0,18,0,0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+
+                        <TextBlock Grid.Row="0" Grid.Column="0" Text="VERSION"
+                                   Style="{StaticResource LabelText}" Margin="0,0,16,6" />
+                        <TextBlock Grid.Row="0" Grid.Column="1" x:Name="AboutVersionText"
+                                   Style="{StaticResource BodyText}" Margin="0,0,0,6" />
+
+                        <TextBlock Grid.Row="1" Grid.Column="0" Text="BUILT"
+                                   Style="{StaticResource LabelText}" Margin="0,0,16,6" />
+                        <TextBlock Grid.Row="1" Grid.Column="1" x:Name="AboutBuiltText"
+                                   Style="{StaticResource BodyText}" Margin="0,0,0,6" />
+
+                        <TextBlock Grid.Row="2" Grid.Column="0" Text="LOCATION"
+                                   Style="{StaticResource LabelText}" Margin="0,0,16,0" />
+                        <TextBlock Grid.Row="2" Grid.Column="1" x:Name="AboutPathText"
+                                   Style="{StaticResource BodyText}" TextWrapping="Wrap" />
+                    </Grid>
+
+                    <Button Style="{StaticResource SubtleButton}" HorizontalAlignment="Left"
+                            Content="Copy build info" Click="OnCopyBuildInfoClick" Margin="0,18,0,0" />
+                </StackPanel>
+            </Border>
+
+        </StackPanel>
+        </ScrollViewer>
+        </TabItem>
+        </TabControl>
+    </Grid>
+</Page>

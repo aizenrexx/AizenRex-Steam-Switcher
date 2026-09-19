@@ -1,0 +1,134 @@
+<ui:FluentWindow x:Class="SteamSwitcher.MainWindow"
+                 xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                 xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
+                 xmlns:pages="clr-namespace:SteamSwitcher.Pages"
+                 Title="AizenRex Steam Switcher"
+                 Width="1240" Height="820"
+                 MinWidth="1000" MinHeight="660"
+                 WindowStartupLocation="CenterScreen"
+                 WindowBackdropType="Mica"
+                 ExtendsContentIntoTitleBar="True"
+                 WindowCornerPreference="Round">
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <!-- ===================== Title bar ===================== -->
+        <ui:TitleBar Grid.Row="0" x:Name="AppTitleBar" Title="AizenRex Steam Switcher" Grid.ColumnSpan="2">
+            <ui:TitleBar.Icon>
+                <ui:ImageIcon Source="pack://application:,,,/Assets/app.ico" />
+            </ui:TitleBar.Icon>
+        </ui:TitleBar>
+
+        <!-- ===================== Navigation ===================== -->
+        <ui:NavigationView x:Name="RootNavigation"
+                           Grid.Row="1"
+                           PaneDisplayMode="Left"
+                           OpenPaneLength="228"
+                           IsBackButtonVisible="Collapsed"
+                           IsPaneToggleVisible="True"
+                           Navigated="OnNavigated">
+
+            <ui:NavigationView.Header>
+                <Grid Margin="24,10,24,0">
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+
+                        <!-- Steam state -->
+                        <ui:Badge x:Name="SteamStatePill" Appearance="Secondary" Margin="0,0,8,0">
+                            <TextBlock x:Name="SteamStateText" Text="Checking…" FontSize="11" />
+                        </ui:Badge>
+
+                        <!-- Warning -->
+                        <ui:Badge x:Name="WarningPill" Appearance="Caution"
+                                  Visibility="Collapsed" Margin="0,0,8,0">
+                            <TextBlock x:Name="WarningPillText" Text="" FontSize="11" />
+                        </ui:Badge>
+
+                        <ui:Button x:Name="RefreshButton"
+                                   Icon="{ui:SymbolIcon ArrowSync24}"
+                                   Content="Refresh"
+                                   Appearance="Secondary"
+                                   Click="OnRefreshClick" />
+                    </StackPanel>
+                </Grid>
+            </ui:NavigationView.Header>
+
+            <ui:NavigationView.MenuItems>
+                <ui:NavigationViewItem Content="Dashboard"
+                                       Icon="{ui:SymbolIcon Home24}"
+                                       TargetPageType="{x:Type pages:DashboardPage}" />
+                <ui:NavigationViewItem Content="Games"
+                                       Icon="{ui:SymbolIcon Games24}"
+                                       TargetPageType="{x:Type pages:LibraryPage}" />
+                <ui:NavigationViewItem Content="Compare"
+                                       Icon="{ui:SymbolIcon ArrowSwap24}"
+                                       TargetPageType="{x:Type pages:ComparePage}" />
+                <ui:NavigationViewItem Content="History"
+                                       Icon="{ui:SymbolIcon History24}"
+                                       TargetPageType="{x:Type pages:HistoryPage}" />
+                <ui:NavigationViewItem Content="Backups"
+                                       Icon="{ui:SymbolIcon Archive24}"
+                                       TargetPageType="{x:Type pages:BackupsPage}" />
+                <ui:NavigationViewItem Content="Diagnostics"
+                                       Icon="{ui:SymbolIcon Pulse24}"
+                                       TargetPageType="{x:Type pages:DiagnosticsPage}" />
+                <ui:NavigationViewItem Content="Tools"
+                                       Icon="{ui:SymbolIcon Wrench24}"
+                                       TargetPageType="{x:Type pages:ToolsPage}" />
+                <ui:NavigationViewItem Content="Logs"
+                                       Icon="{ui:SymbolIcon DocumentText24}"
+                                       TargetPageType="{x:Type pages:LogsPage}" />
+            </ui:NavigationView.MenuItems>
+
+            <ui:NavigationView.FooterMenuItems>
+                <ui:NavigationViewItem Content="Settings"
+                                       Icon="{ui:SymbolIcon Settings24}"
+                                       TargetPageType="{x:Type pages:SettingsPage}" />
+            </ui:NavigationView.FooterMenuItems>
+        </ui:NavigationView>
+
+        <!-- ===================== Status bar ===================== -->
+        <Border Grid.Row="2" Padding="20,9"
+                BorderThickness="0,1,0,0"
+                BorderBrush="{DynamicResource ControlElevationBorderBrush}">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+
+                <!-- Active profile -->
+                <StackPanel Grid.Column="0" Orientation="Horizontal" VerticalAlignment="Center">
+                    <Ellipse x:Name="ActiveDot" Width="9" Height="9" Margin="0,0,8,0"
+                             Fill="{DynamicResource TextFillColorTertiaryBrush}" />
+                    <TextBlock Text="Active:" FontSize="12" Margin="0,0,5,0"
+                               Foreground="{DynamicResource TextFillColorSecondaryBrush}" />
+                    <TextBlock x:Name="ActiveProfileText" Text="Unknown"
+                               FontSize="12" FontWeight="SemiBold" />
+                </StackPanel>
+
+                <TextBlock x:Name="ElevationText" Grid.Column="1"
+                           FontSize="12" Margin="18,0,0,0" VerticalAlignment="Center"
+                           Foreground="{DynamicResource SystemFillColorCautionBrush}" />
+
+                <ui:ProgressRing x:Name="BusyRing" Grid.Column="2"
+                                 IsIndeterminate="True" Visibility="Collapsed"
+                                 Width="16" Height="16" Margin="0,0,10,0" />
+
+                <StackPanel Grid.Column="3" Orientation="Horizontal" VerticalAlignment="Center">
+                    <TextBlock x:Name="StatusText" Text="Ready" FontSize="12"
+                               Foreground="{DynamicResource TextFillColorSecondaryBrush}" />
+                    <TextBlock x:Name="LastRefreshText" Text="" FontSize="12" Margin="14,0,0,0"
+                               Foreground="{DynamicResource TextFillColorTertiaryBrush}" />
+                </StackPanel>
+            </Grid>
+        </Border>
+    </Grid>
+</ui:FluentWindow>

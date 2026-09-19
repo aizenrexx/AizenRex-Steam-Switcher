@@ -1,0 +1,67 @@
+# ---------------------------------------------------------------------------
+# Build output
+# ---------------------------------------------------------------------------
+bin/
+obj/
+[Dd]ebug/
+[Rr]elease/
+publish/
+artifacts/
+*.dll
+*.pdb
+*.exe
+*.zip
+*.bak
+*.tmp
+*.user
+*.suo
+
+# Keep the assets that really are part of the source tree.
+!src/SteamSwitcher/Assets/**
+!tools/**/*.ps1
+!tools/**/*.py
+
+# ---------------------------------------------------------------------------
+# Packaged output - these are produced by the release pipeline, never committed.
+# ---------------------------------------------------------------------------
+Distribution/
+build/release/
+build/_old_*/
+
+# ---------------------------------------------------------------------------
+# REAL USER DATA. Never commit a Steam account.
+# build/release/backups/<name> holds real config.vdf / loginusers.vdf /
+# localconfig.vdf files and licence caches. It stays on the developer's disk.
+# ---------------------------------------------------------------------------
+build/backups/
+backups/
+exports/
+logs/
+*.vdf
+*.cok
+userdata/
+
+# ---------------------------------------------------------------------------
+# Tooling
+# ---------------------------------------------------------------------------
+.vs/
+.vscode/
+.idea/
+*.log
+*.trx
+TestResults/
+coverage/
+
+# ---------------------------------------------------------------------------
+# Secrets - never commit a key, a certificate or an environment file.
+# ---------------------------------------------------------------------------
+keys/
+*.pem
+*.pfx
+*.snk
+secrets/
+.env
+.env.*
+*token*
+*password*
+*credential*
