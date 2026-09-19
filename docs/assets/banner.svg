@@ -1,0 +1,104 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="340" viewBox="0 0 1200 340" role="img" aria-label="AizenRex Steam Switcher - manage two Steam installations and switch between them safely">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#0a121d"/>
+      <stop offset="0.55" stop-color="#101c2b"/>
+      <stop offset="1" stop-color="#16243a"/>
+    </linearGradient>
+    <linearGradient id="steel" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#8fc2ff"/>
+      <stop offset="1" stop-color="#1d3f7a"/>
+    </linearGradient>
+    <linearGradient id="violet" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#c9a6ff"/>
+      <stop offset="1" stop-color="#3a1a7a"/>
+    </linearGradient>
+    <linearGradient id="amber" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#ffd338"/>
+      <stop offset="1" stop-color="#ff8a3d"/>
+    </linearGradient>
+    <linearGradient id="rule" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#5b8cff" stop-opacity="0.95"/>
+      <stop offset="0.55" stop-color="#c9a6ff" stop-opacity="0.5"/>
+      <stop offset="1" stop-color="#5b8cff" stop-opacity="0"/>
+    </linearGradient>
+    <radialGradient id="glow1" cx="0.5" cy="0.5" r="0.5">
+      <stop offset="0" stop-color="#5b8cff" stop-opacity="0.30"/>
+      <stop offset="1" stop-color="#5b8cff" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="glow2" cx="0.5" cy="0.5" r="0.5">
+      <stop offset="0" stop-color="#a06bff" stop-opacity="0.22"/>
+      <stop offset="1" stop-color="#a06bff" stop-opacity="0"/>
+    </radialGradient>
+    <filter id="soft" x="-30%" y="-30%" width="160%" height="160%">
+      <feDropShadow dx="0" dy="6" stdDeviation="10" flood-color="#000" flood-opacity="0.45"/>
+    </filter>
+  </defs>
+
+  <rect width="1200" height="340" fill="url(#bg)"/>
+  <circle cx="196" cy="168" r="230" fill="url(#glow1)"/>
+  <circle cx="228" cy="150" r="150" fill="url(#glow2)"/>
+
+  <!-- faint grid, keeps the flat background from reading as empty -->
+  <g stroke="#5b8cff" stroke-opacity="0.05" stroke-width="1">
+    <path d="M0 60H1200M0 120H1200M0 180H1200M0 240H1200M0 300H1200"/>
+    <path d="M120 0V340M240 0V340M360 0V340M480 0V340M600 0V340M720 0V340M840 0V340"/>
+  </g>
+
+  <!-- application mark: two Steam folders trading places -->
+  <g transform="translate(74,74)" filter="url(#soft)">
+    <!-- back folder -->
+    <g opacity="0.55">
+      <path d="M96 44 L152 44 L152 62 L96 62 Z" fill="url(#violet)"/>
+      <rect x="86" y="60" width="76" height="56" rx="7" fill="#1b2941" stroke="#a06bff" stroke-opacity="0.5" stroke-width="1.6"/>
+      <text x="124" y="95" font-family="'Segoe UI', system-ui, sans-serif" font-size="17" font-weight="700" fill="#c9a6ff" text-anchor="middle">DADDY</text>
+    </g>
+
+    <!-- front folder -->
+    <g transform="translate(0,34)">
+      <path d="M96 44 L152 44 L152 62 L96 62 Z" fill="url(#steel)"/>
+      <rect x="86" y="60" width="76" height="56" rx="7" fill="#17253c" stroke="#8fc2ff" stroke-opacity="0.75" stroke-width="1.8"/>
+      <text x="124" y="95" font-family="'Segoe UI', system-ui, sans-serif" font-size="17" font-weight="700" fill="#cfe4ff" text-anchor="middle">MAIN</text>
+    </g>
+
+    <!-- swap arrows -->
+    <g stroke="url(#amber)" stroke-width="4.4" stroke-linecap="round" fill="none">
+      <path d="M14 84 C34 66 58 60 78 58"/>
+      <path d="M14 146 C40 156 62 158 84 154"/>
+    </g>
+    <polygon points="78,58 66,52 68,66" fill="url(#amber)"/>
+    <polygon points="84,154 72,148 74,162" fill="url(#amber)"/>
+
+    <!-- shield: the safety promise -->
+    <g transform="translate(168,116)">
+      <path d="M22 0 L44 9 V26 C44 40 33 50 22 55 C11 50 0 40 0 26 V9 Z" fill="#16243a" stroke="#7fd6a0" stroke-width="2"/>
+      <path d="M13 27 L19 34 L32 19" fill="none" stroke="#7fd6a0" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"/>
+    </g>
+  </g>
+
+  <!-- wordmark -->
+  <text x="352" y="150" font-family="'Segoe UI', 'Segoe UI Variable Display', system-ui, -apple-system, sans-serif"
+        font-size="60" font-weight="700" fill="#f2f7ff" letter-spacing="-1.4">AizenRex <tspan fill="#8fc2ff">Steam Switcher</tspan></text>
+
+  <text x="354" y="200" font-family="'Segoe UI', system-ui, -apple-system, sans-serif"
+        font-size="23" fill="#9fb4d0" letter-spacing="0.1">Two Steam installations. One click to swap between them.</text>
+
+  <rect x="354" y="226" width="600" height="2.5" rx="1.25" fill="url(#rule)"/>
+
+  <g font-family="'Segoe UI', system-ui, -apple-system, sans-serif" font-size="16" font-weight="600">
+    <rect x="354" y="250" width="128" height="38" rx="19" fill="#101c2b" stroke="#3d6bb5" stroke-width="1.5"/>
+    <text x="418" y="275" fill="#8fc2ff" text-anchor="middle">WPF .NET 9</text>
+
+    <rect x="494" y="250" width="150" height="38" rx="19" fill="#101c2b" stroke="#3d6bb5" stroke-width="1.5"/>
+    <text x="569" y="275" fill="#8fc2ff" text-anchor="middle">Windows x64</text>
+
+    <rect x="656" y="250" width="122" height="38" rx="19" fill="#101c2b" stroke="#6a4bb5" stroke-width="1.5"/>
+    <text x="717" y="275" fill="#c9a6ff" text-anchor="middle">Portable</text>
+
+    <rect x="790" y="250" width="158" height="38" rx="19" fill="#101c2b" stroke="#6a4bb5" stroke-width="1.5"/>
+    <text x="869" y="275" fill="#c9a6ff" text-anchor="middle">Self-update</text>
+
+    <rect x="960" y="250" width="112" height="38" rx="19" fill="#101c2b" stroke="#3f7a5c" stroke-width="1.5"/>
+    <text x="1016" y="275" fill="#7fd6a0" text-anchor="middle">MIT</text>
+  </g>
+</svg>
