@@ -65,3 +65,6 @@ secrets/
 *token*
 *password*
 *credential*
+
+# Scratch dumps produced by the local dev scripts.
+docs/_*.txt
